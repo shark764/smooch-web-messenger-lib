@@ -7,5 +7,11 @@
   "repository": {
     "type": "git",
     "url": "git@github.com:SerenovaLLC/smooch-web-messenger-lib.git"
+  },
+  "scripts": {
+    "build": "uglifyjs ./lib/load-chat.js --compress sequences=true,conditionals=true,booleans=true --mangle --output ./build/load-chat.js | uglifyjs ./lib/init-chat.js --compress sequences=true,conditionals=true,booleans=true --mangle --output ./build/init-chat.js"
+  },
+  "dependencies": {
+    "uglify-js": "3.6.0"
   }
 }

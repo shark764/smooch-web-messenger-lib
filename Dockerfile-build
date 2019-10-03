@@ -1,0 +1,16 @@
+FROM node:10.5.0
+
+RUN mkdir /home/node/.npm-global
+ENV PATH=/home/node/.npm-global/bin:$PATH
+ENV NPM_CONFIG_PREFIX=/home/node/.npm-global
+
+COPY . /home/node/app
+RUN chown -R node /home/node/app
+
+RUN usermod -u 106 node
+
+USER node
+WORKDIR /home/node/app
+
+RUN npm install 
+RUN npm install @sentry/cli

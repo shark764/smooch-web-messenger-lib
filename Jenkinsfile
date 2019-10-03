@@ -24,15 +24,34 @@ node(){
 pipeline {
   agent any
   stages {
-    stage ('Set build version') {
-      steps {
-        sh 'echo "Stage Description: Set build version from package.json"'
-        script {
-          buildTool = c.getBuildTool()
-          props = c.exportProperties(buildTool)
-          n.export()
-          build_version = readFile('version')
+    stage ('Setup') {
+      parallel {
+        stage ('Set build version') {
+          steps {
+            sh 'echo "Stage Description: Set build version from package.json"'
+            script {
+              buildTool = c.getBuildTool()
+              props = c.exportProperties(buildTool)
+              n.export()
+              build_version = readFile('version')
+            }
+          }
         }
+        stage ('Setup Docker') {
+          steps {
+            sh 'echo "Stage Description: Sets up docker image for use in the next stages"'
+            sh "rm -rf build; mkdir build -p"
+            sh "docker build -t ${docker_tag} -f Dockerfile-build ."
+            sh "docker run --rm -t -d --name=${docker_tag} ${docker_tag}"
+          }
+        }
+      }
+    }
+    stage ('Build') {
+      steps {
+        sh 'echo "Stage Description: Builds the production version of the lib"'
+        sh "docker exec ${docker_tag} npm run build"
+        sh "docker cp ${docker_tag}:/home/node/app/build ."
       }
     }
     stage ('Push new tag'){
@@ -55,8 +74,8 @@ pipeline {
     stage ('Push to jenkins storage S3') {
       when { anyOf {branch 'master';}}
       steps {
-        sh 'echo "Stage Description: Pushes lib files to S3"'
-        sh "aws s3 sync lib/ s3://cxengagelabs-jenkins/frontend/${service}/${build_version}/ --delete"
+        sh 'echo "Stage Description: Pushes build files to S3"'
+        sh "aws s3 sync build/ s3://cxengagelabs-jenkins/frontend/${service}/${build_version}/ --delete"
       }
     }
     // TODO add this when we can deploy
@@ -74,6 +93,11 @@ pipeline {
   post {
     always {
       script {
+        try {
+          sh "docker rmi ${docker_tag} --force"
+        } catch (e) {
+          sh 'echo "Failed to remove docker image"'
+        }
         c.cleanup()
       }
     }

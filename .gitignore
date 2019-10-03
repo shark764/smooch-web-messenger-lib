@@ -1,3 +1,9 @@
 ### macOS ###
 # General
 .DS_Store
+
+### Node ###
+node_modules
+
+### Repo ###
+build/**.js
