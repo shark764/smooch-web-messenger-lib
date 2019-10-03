@@ -1,6 +1,6 @@
 {
   "name": "smooch-web-messenger-lib",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "JavaScript files that customers need to put into their website to use the Smooch web messenger.",
   "author": "SerenovaLLC",
   "license": "UNLICENSED",
@@ -9,7 +9,7 @@
     "url": "git@github.com:SerenovaLLC/smooch-web-messenger-lib.git"
   },
   "scripts": {
-    "build": "uglifyjs ./lib/load-chat.js --compress sequences=true,conditionals=true,booleans=true --mangle --output ./build/load-chat.js | uglifyjs ./lib/init-chat.js --compress sequences=true,conditionals=true,booleans=true --mangle --output ./build/init-chat.js"
+    "build": "uglifyjs ./lib/load-chat.js --compress sequences=true,conditionals=true,booleans=true --comments all --mangle --output ./build/load-chat.js | uglifyjs ./lib/init-chat.js --compress sequences=true,conditionals=true,booleans=true --comments all --mangle --output ./build/init-chat.js"
   },
   "dependencies": {
     "uglify-js": "3.6.0"

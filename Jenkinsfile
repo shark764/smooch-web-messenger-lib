@@ -7,7 +7,7 @@ import hipchat
 import node
 import frontend
 
-def service = 'Agent-Desktop'
+def service = 'Smooch-Web-Messenger-Lib'
 def docker_tag = BUILD_TAG.toLowerCase()
 def pr = env.CHANGE_ID
 def c = new common()
