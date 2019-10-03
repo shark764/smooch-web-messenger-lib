@@ -78,17 +78,16 @@ pipeline {
         sh "aws s3 sync build/ s3://cxengagelabs-jenkins/frontend/${service}/${build_version}/ --delete"
       }
     }
-    // TODO add this when we can deploy
-    // stage ('Deploy to dev') {
-    //   when { anyOf {branch 'master';}}
-    //   steps {
-    //     build job: 'Deploy - Front-End', parameters: [
-    //         [$class: 'StringParameterValue', name: 'Service', value: 'Agent-Desktop'],
-    //         [$class: 'StringParameterValue', name: 'Version', value: "${build_version}"],
-    //         [$class: 'StringParameterValue', name: 'Environment', value: 'dev']
-    //     ]
-    //   }
-    // }
+    stage ('Deploy to dev') {
+      when { anyOf {branch 'master';}}
+      steps {
+        build job: 'Deploy - Front-End', parameters: [
+            [$class: 'StringParameterValue', name: 'Service', value: "${service}"],
+            [$class: 'StringParameterValue', name: 'Version', value: "${build_version}"],
+            [$class: 'StringParameterValue', name: 'Environment', value: 'dev']
+        ]
+      }
+    }
   }
   post {
     always {
