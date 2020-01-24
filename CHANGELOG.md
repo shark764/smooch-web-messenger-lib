@@ -1,3 +1,6 @@
+## 0.2.3
+* CXV1-21434 - Use HTTPS in URLs.
+
 ## 0.2.2
 * CXV1-21408 - from name in 'Send Message' notations is shown in Smooch.
 
