@@ -1,3 +1,6 @@
+## 2.1.1
+* CXV1-23134 - Fix proactive chat background color
+
 ## 2.1.0
 * CXV1-23134 - Add proactive chat
 
