@@ -1,3 +1,6 @@
+## 2.1.0
+* CXV1-23134 - Add proactive chat
+
 ## 2.0.0
 * CXV1-22371 - Whitelabeled Smooch SDK hosted on Serenova SDK S3 bucket. See: https://github.com/SerenovaLLC/serenovawebchat-web
 
