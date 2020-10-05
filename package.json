@@ -1,6 +1,6 @@
 {
   "name": "smooch-web-messenger-lib",
-  "version": "2.1.1",
+  "version": "2.1.2-SNAPSHOT",
   "description": "JavaScript files that customers need to put into their website to use the Smooch web messenger.",
   "author": "SerenovaLLC",
   "license": "UNLICENSED",
@@ -9,9 +9,10 @@
     "url": "git@github.com:SerenovaLLC/smooch-web-messenger-lib.git"
   },
   "scripts": {
-    "build": "terser ./lib/load-chat.js -c sequences=true,conditionals=true,booleans=true --comments all -m -o ./build/load-chat.js | terser ./lib/init-chat.js -c sequences=true,conditionals=true,booleans=true --comments all -m -o ./build/init-chat.js"
+    "build": "terser ./lib/load-chat.js -c sequences=true,conditionals=true,booleans=true --comments all -m -o ./build/load-chat.js | terser ./lib/init-chat.js -c sequences=true,conditionals=true,booleans=true --comments all -m -o ./build/init-chat.js",
+    "test": "echo \"Error: no test specified\" && exit 0"
   },
   "dependencies": {
-    "terser": "4.3.4"
+    "terser": "5.3.4"
   }
 }

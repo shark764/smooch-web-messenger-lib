@@ -1,3 +1,6 @@
+## 2.1.2-SNAPSHOT
+* CXV1-23172 - Use default jenkins job
+
 ## 2.1.1
 * CXV1-23134 - Fix proactive chat background color
 
