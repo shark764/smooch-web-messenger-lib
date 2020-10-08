@@ -1,4 +1,4 @@
-## 2.1.2-SNAPSHOT
+## 2.1.2
 * CXV1-23172 - Use default jenkins job
 
 ## 2.1.1
