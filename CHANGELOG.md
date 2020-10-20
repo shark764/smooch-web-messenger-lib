@@ -1,3 +1,6 @@
+## 2.1.3
+* Fix proactive chat position when button height is undefined
+
 ## 2.1.2
 * CXV1-23172 - Use default jenkins job
 
