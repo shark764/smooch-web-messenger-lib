@@ -1,3 +1,6 @@
+## 2.1.4
+* CXV1-23699 - Filtering out message from smooch when an interaction has been created | Web Messaging.
+
 ## 2.1.3
 * Fix proactive chat position when button height is undefined
 
