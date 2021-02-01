@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>SerenovaWebChat</title>
+  </head>
+  <body>
+    <script type="text/javascript">
+      var integrationId = '5de9346f195d6b00101b666a';
+
+      !function(s,r,o){var p,a,i,c=[],u=[];function e(){try{var e;if((e="string"==typeof this.response?JSON.parse(this.response):this.response).url){var n=r.getElementsByTagName("script")[0],t=r.createElement("script");t.async=!0,t.src=e.url,n.parentNode.insertBefore(t,n)}}catch(e){}}s[o]={init:function(){p=arguments;var n={then:function(e){return u.push({type:"t",next:e}),n},catch:function(e){return u.push({type:"c",next:e}),n}};return n},on:function(){c.push(arguments)},render:function(){a=arguments},destroy:function(){i=arguments}},s.__onWebMessengerHostReady__=function(e){if(delete s.__onWebMessengerHostReady__,s[o]=e,p)for(var n=e.init.apply(e,p),t=0;t<u.length;t++){var r=u[t];n="t"===r.type?n.then(r.next):n.catch(r.next)}a&&e.render.apply(e,a),i&&e.destroy.apply(e,i);for(t=0;t<c.length;t++)e.on.apply(e,c[t])};var n=new XMLHttpRequest;n.addEventListener("load",e),n.open("GET","https://sdk.cxengage.net/webchat/1.0.0/loader.json",!0),n.responseType="json",n.send()}
+      (window,document,"SerenovaWebChat",integrationId);
+    </script>
+
+    <h1>Chat starts here ↓</h1>
+
+    <div id="initializing">
+      Initializing chat...
+    </div>
+
+    <!-- Optional. Used to set customer name. -->
+    <div id="name-container" style="display: none;">
+      Name:
+      <input type="text" id="name-input" placeholder="Enter name here" />
+      <span id="name-value"></span>
+    </div>
+
+    <div id="chat" style="display: none;">
+      <ul id="conversation"></ul>
+      <input type="text" id="text-input" placeholder="text" />
+      <span id="indicator"></span>
+    </div>
+
+    <div id="no-display" style="display: none"></div>
+
+    <script type="text/javascript">
+      var nameInput = document.getElementById('name-input');
+      nameInput.onkeyup = async function (e) {
+        if (e.key === 'Enter') {
+          var nameValue = nameInput.value;
+          // `givenName` and `properties.customer` are used set customer name
+          // Additional data can be passed into `properties` to be used in flow
+          await SerenovaWebChat.updateUser({
+            givenName: nameValue,
+            properties: {
+              customer: nameValue,
+              customDataForFlow: 'example-data' 
+            }
+          });
+          nameInput.style.display = 'none';
+          document.getElementById('name-value').innerHTML = nameValue;
+          document.getElementById('chat').style.display = 'block';
+        }
+      };
+
+      SerenovaWebChat.init({
+        integrationId: integrationId,
+        embedded: true,
+      }).then(function () {
+        document.getElementById('initializing').style.display = 'none';
+        document.getElementById('name-container').style.display = 'block';
+
+        var inputElement = document.getElementById('text-input');
+        inputElement.onkeyup = function (e) {
+          if (e.key === 'Enter') {
+            SerenovaWebChat.sendMessage(inputElement.value).then(function () {
+              inputElement.value = '';
+            });
+          }
+        };
+    
+        // Displays initial messages
+        var conversation = SerenovaWebChat.getConversation();
+        conversation.messages.forEach(function (message) {
+          displayMessage(message, { conversation: conversation });
+        });
+      });
+      SerenovaWebChat.render(document.getElementById('no-display'));
+
+      function formatMessage(message) {
+        if (message.role === 'appMaker' && message.metadata) {
+          if (
+            message.metadata.type === 'agent' &&
+            message.metadata.firstName
+          ) {
+            message.name = message.metadata.firstName;
+          } else if (
+            message.role === 'appMaker' &&
+            message.type === 'form' &&
+            message.fields &&
+            message.fields.length > 0
+          ) {
+            message.name = message.metadata.from;
+            message.text = message.fields[0].label;
+          } else if (message.metadata.from) {
+            message.name = message.metadata.from;
+          }
+        }
+        return message;
+      }
+
+      function displayMessage(message, data) {
+        if (message.type === 'formResponse') {
+          return;
+        }
+        var ftMessage = formatMessage(message);
+        var conversationElement = document.getElementById('conversation');
+        var messageElement = document.createElement('li');
+        messageElement.innerHTML =
+          '<strong>' +
+          ftMessage.name +
+          ' says ' +
+          '</strong>"' +
+          ftMessage.text +
+          '"';
+        conversationElement.appendChild(messageElement);
+      }
+
+      function handleMessageReceived(message, data) {
+        if (message.type === 'form') {
+          var ftMessage = formatMessage(message);
+          var resInputElement = document.createElement('input');
+          resInputElement.type = 'text';
+          resInputElement.name = 'collect-response';
+          resInputElement.id = 'collect-response-' + ftMessage._id;
+          resInputElement.onkeyup = function (e) {
+            if (e.key === 'Enter') {
+              SerenovaWebChat.sendMessage(
+                {
+                  type: 'formResponse',
+                  fields: [
+                    {
+                      label: ftMessage.text,
+                      name: 'collect-message',
+                      type: 'text',
+                      text: resInputElement.value,
+                    },
+                  ],
+                  quotedMessageId: ftMessage._id,
+                },
+                conversation._id
+              ).then(function () {
+                console.log('Response sent successfully');
+                resInputElement.disabled = true;
+              });
+            }
+          };
+
+          var conversationElement = document.getElementById('conversation');
+          var messageElement = document.createElement('li');
+          messageElement.innerHTML =
+            '<strong>' +
+            ftMessage.name +
+            ' says ' +
+            '</strong>"' +
+            ftMessage.text +
+            '"';
+          conversationElement.appendChild(messageElement);
+          conversationElement.appendChild(resInputElement);
+        } else {
+          displayMessage(message, data);
+        }
+      }
+
+      SerenovaWebChat.on('message:sent', displayMessage);
+      SerenovaWebChat.on('message:received', handleMessageReceived);
+      SerenovaWebChat.on('conversation:read', function (payload, data) {
+        if (payload.role === 'appMaker') {
+          document.getElementById(
+            'indicator'
+          ).textContent = `Agent read your message.`;
+        }
+      });
+      SerenovaWebChat.on('typing:start', function (data) {
+        document.getElementById('indicator').textContent = `${
+          data.name || 'Agent'
+        } started typing!`;
+      });
+      SerenovaWebChat.on('typing:stop', function (data) {
+        document.getElementById('indicator').textContent = '';
+      });
+    </script>
+  </body>
+</html>
