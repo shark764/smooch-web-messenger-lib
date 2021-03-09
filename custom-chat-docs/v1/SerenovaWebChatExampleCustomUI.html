@@ -6,16 +6,22 @@
   </head>
   <body>
     <script type="text/javascript">
-      var integrationId = '5de9346f195d6b00101b666a';
-
+      var integrationId = '<your integration/chat widget id>';
       !function(s,r,o){var p,a,i,c=[],u=[];function e(){try{var e;if((e="string"==typeof this.response?JSON.parse(this.response):this.response).url){var n=r.getElementsByTagName("script")[0],t=r.createElement("script");t.async=!0,t.src=e.url,n.parentNode.insertBefore(t,n)}}catch(e){}}s[o]={init:function(){p=arguments;var n={then:function(e){return u.push({type:"t",next:e}),n},catch:function(e){return u.push({type:"c",next:e}),n}};return n},on:function(){c.push(arguments)},render:function(){a=arguments},destroy:function(){i=arguments}},s.__onWebMessengerHostReady__=function(e){if(delete s.__onWebMessengerHostReady__,s[o]=e,p)for(var n=e.init.apply(e,p),t=0;t<u.length;t++){var r=u[t];n="t"===r.type?n.then(r.next):n.catch(r.next)}a&&e.render.apply(e,a),i&&e.destroy.apply(e,i);for(t=0;t<c.length;t++)e.on.apply(e,c[t])};var n=new XMLHttpRequest;n.addEventListener("load",e),n.open("GET","https://sdk.cxengage.net/webchat/1.0.0/loader.json",!0),n.responseType="json",n.send()}
       (window,document,"SerenovaWebChat",integrationId);
     </script>
 
-    <h1>Chat starts here ↓</h1>
+    <h1>
+      Chat starts here ↓
+    </h1>
 
     <div id="initializing">
       Initializing chat...
+    </div>
+
+    <div id="disconnect-container" style="display: none;">
+      <a href="">Chat disconnected. Click here to reconnect.</a>
+      <br><br>
     </div>
 
     <!-- Optional. Used to set customer name. -->
@@ -34,24 +40,6 @@
     <div id="no-display" style="display: none"></div>
 
     <script type="text/javascript">
-      var nameInput = document.getElementById('name-input');
-      nameInput.onkeyup = async function (e) {
-        if (e.key === 'Enter') {
-          var nameValue = nameInput.value;
-          // `givenName` and `properties.customer` are used set customer name
-          // Additional data can be passed into `properties` to be used in flow
-          await SerenovaWebChat.updateUser({
-            givenName: nameValue,
-            properties: {
-              customer: nameValue,
-              customDataForFlow: 'example-data' 
-            }
-          });
-          nameInput.style.display = 'none';
-          document.getElementById('name-value').innerHTML = nameValue;
-          document.getElementById('chat').style.display = 'block';
-        }
-      };
 
       SerenovaWebChat.init({
         integrationId: integrationId,
@@ -59,6 +47,39 @@
       }).then(function () {
         document.getElementById('initializing').style.display = 'none';
         document.getElementById('name-container').style.display = 'block';
+
+        var chatUser = SerenovaWebChat.getUser();
+        var nameInput = document.getElementById('name-input');
+        if (!chatUser) {
+          nameInput.onkeyup = function (e) {
+            if (e.key === 'Enter') {
+              var nameValue = nameInput.value;
+              // `givenName` and `properties.customer` are used set customer name
+              // Additional data can be passed into `properties` to be used in flow
+              SerenovaWebChat.updateUser({
+                givenName: nameValue,
+                properties: {
+                  customer: nameValue,
+                  customDataForFlow: 'example-data' 
+                }
+              }).then(function() {
+                nameInput.style.display = 'none';
+                document.getElementById('name-value').innerHTML = nameValue;
+                document.getElementById('chat').style.display = 'block';
+              });
+            }
+          };
+        } else {
+          nameInput.style.display = 'none';
+          document.getElementById('name-value').innerHTML = chatUser.givenName;
+          document.getElementById('chat').style.display = 'block';
+          
+          // Displays initial messages
+          var conversation = SerenovaWebChat.getConversation();
+          conversation.messages.forEach(function (message) {
+            displayMessage(message, { conversation: conversation });
+          });
+        }
 
         var inputElement = document.getElementById('text-input');
         inputElement.onkeyup = function (e) {
@@ -68,13 +89,8 @@
             });
           }
         };
-    
-        // Displays initial messages
-        var conversation = SerenovaWebChat.getConversation();
-        conversation.messages.forEach(function (message) {
-          displayMessage(message, { conversation: conversation });
-        });
       });
+
       SerenovaWebChat.render(document.getElementById('no-display'));
 
       function formatMessage(message) {
@@ -117,6 +133,7 @@
       }
 
       function handleMessageReceived(message, data) {
+        console.log('Message received', message, data);
         if (message.type === 'form') {
           var ftMessage = formatMessage(message);
           var resInputElement = document.createElement('input');
@@ -179,6 +196,15 @@
       SerenovaWebChat.on('typing:stop', function (data) {
         document.getElementById('indicator').textContent = '';
       });
+
+      SerenovaWebChat.on('connected', function(e) {
+        console.log('SerenovaWebChat connected');
+      });
+      SerenovaWebChat.on('disconnected', function(e) {
+        console.log('SerenovaWebChat disconnected');
+        document.getElementById('disconnect-container').style.display = 'block';
+      });
+
     </script>
   </body>
 </html>
