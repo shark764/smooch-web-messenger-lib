@@ -1,3 +1,6 @@
+## 2.1.5
+* CXV1-23386 - Clean up old API Gateway code paths after deploy.
+
 ## 2.1.4
 * CXV1-23699 - Filtering out message from smooch when an interaction has been created | Web Messaging.
 
