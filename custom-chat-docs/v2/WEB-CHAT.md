@@ -1065,17 +1065,17 @@ If your deployment requires [CSP compatibility](https://developer.mozilla.org/en
     http-equiv="Content-Security-Policy"
     content="
     connect-src
-        wss://*.{{YOUR_DOMAIN_NAME}}
-        https://*.{{YOUR_DOMAIN_NAME}};
+        wss://*.smooch.io
+        https://*.smooch.io;
     font-src
-        https://*.{{YOUR_DOMAIN_NAME}};
+        https://*.smooch.io;
     script-src
-        https://*.{{YOUR_DOMAIN_NAME}};
+        https://*.smooch.io;
     style-src
-        https://*.{{YOUR_DOMAIN_NAME}};
+        https://*.smooch.io;
     img-src
         blob:
-        https://*.{{YOUR_DOMAIN_NAME}};"
+        https://*.smooch.io;"
 />
 ```
 
