@@ -1,0 +1,15 @@
+<html>
+  <head>
+    <script>
+        !function(o,i,s,c){var a,p,h,u=[],l=[];function e(){var t="You must provide a supported major version.";try{if(!c)throw new Error(t);var e,n="https://sdk.cxengage.net/webchat/2.2.1/",r="serenovawebchat";if((e="string"==typeof this.response?JSON.parse(this.response):this.response).url){var o=i.getElementsByTagName("script")[0],s=i.createElement("script");s.async=!0;var a=c.match(/([0-9]+)\.?([0-9]+)?\.?([0-9]+)?/),p=a&&a[1];if(a&&a[3])s.src=n+r+"."+c+".min.js";else{if(!(1<=p&&e["v"+p]))throw new Error(t);s.src=e["v"+p]}o.parentNode.insertBefore(s,o)}}catch(e){e.message===t&&console.error(e)}}o[s]={init:function(){a=arguments;var t={then:function(e){return l.push({type:"t",next:e}),t},catch:function(e){return l.push({type:"c",next:e}),t}};return t},on:function(){u.push(arguments)},render:function(){p=arguments},destroy:function(){h=arguments}},o.__onWebMessengerHostReady__=function(e){if(delete o.__onWebMessengerHostReady__,o[s]=e,a)for(var t=e.init.apply(e,a),n=0;n<l.length;n++){var r=l[n];t="t"===r.type?t.then(r.next):t.catch(r.next)}p&&e.render.apply(e,p),h&&e.destroy.apply(e,h);for(n=0;n<u.length;n++)e.on.apply(e,u[n])};var t=new XMLHttpRequest;t.addEventListener("load",e),t.open("GET","https://sdk.cxengage.net/webchat/2.2.1/loader.json",!0),t.responseType="json",t.send()}(window,document,"SerenovaWebChat","2");
+    </script>
+  </head>
+  <body>
+    <h1>Josh Test</h1>
+    <script>
+      SerenovaWebChat.init({integrationId: '<your integration id here>'}).then(function() {
+          // Your code after init is complete
+      });
+  </script>
+  </body>
+</html>
