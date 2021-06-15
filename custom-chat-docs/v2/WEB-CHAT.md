@@ -378,17 +378,15 @@ SerenovaWebChat.stopTyping('<conversation-id>');
 
 #### updateUser(user)
 
-Updates the current user's information. If no user has been created yet, the Web Messenger will store the information and apply it to the user model when it is created.
+Updates the current user's information. If no user has been created yet, the Web Messenger will store the information and apply it to the user model when it is created. Set `givenName` and `metadata.customer` before an interaction is created to update the customer's name and have it used as the name/contact-point in flow. Add any additional properties to `metadata` to have them included on `customerMetadata.webClientProperties` on the interaction in flow.
 
 ```javascript
 SerenovaWebChat.updateUser({
-    givenName: 'Updated',
-    surname: 'Name',
-    email: 'updated@email.com',
-    avatarUrl: 'https://pictureurl.com/avatar_icon.png',
+    givenName: 'Manually set name', // Set before interaction is created to use as name/contact-point in flow
     metadata: {
-      'justGotUpdated': true
-    }
+        customer: 'Manually set name', // Set before interaction is created to use as name/contact-point in flow
+        customDataForFlow: 'example-data' // Set any other data here before interaction be accessable in flow
+    },
 });
 ```
 

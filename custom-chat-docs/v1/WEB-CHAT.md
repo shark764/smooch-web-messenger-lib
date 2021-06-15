@@ -348,7 +348,7 @@ SerenovaWebChat.stopTyping();
 ```
 #### updateUser(user)
 
-Updates the current user's information. Set `givenName` and `metadata.customer` before an interaction is created to update the customer's name and have it used as the name/contact-point in flow. Add any additional properties to `metadata` to have them included on `customerMetadat.webClientProperties` on the interaction in flow.
+Updates the current user's information. Set `givenName` and `metadata.customer` before an interaction is created to update the customer's name and have it used as the name/contact-point in flow. Add any additional properties to `metadata` to have them included on `customerMetadata.webClientProperties` on the interaction in flow.
 
 ```javascript
 SerenovaWebChat.updateUser({
