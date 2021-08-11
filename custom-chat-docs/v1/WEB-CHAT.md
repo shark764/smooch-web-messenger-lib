@@ -164,6 +164,7 @@ The list of localizable strings. These strings can be modified. _If an option is
 | ------------- | --------- | ------------- | ------------------------------------- |
 | imageUpload   | Yes       | `true`        | Enables the image upload menu item.   |
 | fileUpload    | Yes       | `true`        | Enables the file upload menu item.    |
+| shareLocation | Yes       | `true`        | Enables share location menu item.     |
 
 [See below](#example) for an example.
 
@@ -187,6 +188,7 @@ var initPromise = SerenovaWebChat.init({
     menuItems: {
         imageUpload: true,
         fileUpload: true,
+        shareLocation: true,
     },
 
     fixedIntroPane: false,

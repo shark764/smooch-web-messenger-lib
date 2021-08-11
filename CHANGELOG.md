@@ -1,3 +1,6 @@
+## 2.2.0
+* CXV1-27215 - Enable send location in WebChat.
+
 ## 2.1.5
 * CXV1-23386 - Clean up old API Gateway code paths after deploy.
 
