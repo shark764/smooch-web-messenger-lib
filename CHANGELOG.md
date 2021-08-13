@@ -1,3 +1,6 @@
+## 2.2.1
+* CXV1-24082 - Update to latest (non-major update) bugfix web SDK version. See https://github.com/zendesk/sunshine-conversations-web/releases?after=5.0.0&before4.29.12 for SDK release notes.
+
 ## 2.2.0
 * CXV1-27215 - Enable send location in WebChat.
 
