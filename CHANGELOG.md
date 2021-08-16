@@ -1,3 +1,6 @@
+## 3.0.0
+* CXV1-27248 - Conditionally allow the latest (new major version) of the web SDK by passing in the integration id instead of the app id.
+
 ## 2.2.1
 * CXV1-24082 - Update to latest (non-major update) bugfix web SDK version. See https://github.com/zendesk/sunshine-conversations-web/releases?after=5.0.0&before4.29.12 for SDK release notes.
 
