@@ -1,3 +1,6 @@
+## 3.0.1
+* CXV1-27248 - Fix prechat capture when passing in appId with URL params
+
 ## 3.0.0
 * CXV1-27248 - Conditionally allow the latest (new major version) of the web SDK by passing in the integration id instead of the app id.
 
