@@ -1,4 +1,8 @@
 ## 3.0.1
+* CXV1-27248 - Updated demo docs
+* CXV1-27248 - Added console error when using appId with URL params (it's now deprecated, we should be using integration id from now on) 
+
+## 3.0.1
 * CXV1-27248 - Fix prechat capture when passing in appId with URL params
 
 ## 3.0.0

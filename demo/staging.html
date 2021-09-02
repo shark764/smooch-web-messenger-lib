@@ -1,13 +1,15 @@
 <html>
   <head>
-    <script src="https://staging-webchat.cxengagelabs.net/load-chat.js?loadParamsFromUrl=true"></script>
+    <script src="https://staging-webchat.cxengagelabs.net/load-chat.js"></script>
   </head>
   <body>
     <h4>Staging Web Chat</h4>
-    <div>Add <i>?appId=your-app-id</i> to the URL for the chat widget in this page to work.</div>
+    <div>Add <i>?integrationId=your-web-integration-id</i> to the URL for the chat widget in this page to work.</div>
+    <div style="font-size: small; color: orange;">
+      &nbsp;&nbsp;&nbsp; Note: <i>?appId=your-app-id</i> was previously used here, but is now deprecated.
+    </div>
     <div>For region, add <i>region=eu-1</i> to the URL params.</div>
-    <div>For proactive chat, add <i>proactiveChatMessage=Hello%21%20How%20are%20you%20doing%3F%</i> to the URL params. To add a timer to automatically show the proactive chat, add <i>proactiveChatTimer=2</i> to the URL params.</div>
-    <div>For custom text, add <i>&prechatCaptureGreetingText=supdawg&prechatCaptureConfirmationText=neato</i> to the URL params.</div>
+    <div>For proactive chat, add <i>proactiveChatMessage=Hello%21%20How%20are%20you%20doing%3F</i> to the URL params. To add a timer to automatically show the proactive chat, add <i>proactiveChatTimer=2</i> to the URL params.</div>
     <script src="https://staging-webchat.cxengagelabs.net/init-chat.js"></script>
   </body>
 </html>
